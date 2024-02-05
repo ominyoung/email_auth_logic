@@ -1,8 +1,5 @@
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.db import models
-from django.core.mail import send_mail
-from EmailAuthLogic import settings
-
 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, password=None):
@@ -63,12 +60,3 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
 
     def has_module_perms(self, app_label):
         return True
-
-    def email_user(self, subject, message, html_message):
-        return send_mail(
-            subject=subject,
-            message=message,
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=['ohmj090747@gmail.com'],
-            html_message=html_message
-        )
