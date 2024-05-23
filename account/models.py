@@ -50,7 +50,6 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     profile_website = ImageSpecField(source='profile',
                                     format='JPEG',
                                     options={'quality': 60})
-
     is_superuser = models.BooleanField(verbose_name='최고관리자', default=False)
     is_staff = models.BooleanField(verbose_name='관리자페이지 접근', default=False)
     position = models.CharField(verbose_name='직책', max_length=30, choices=MyUser_ROLL_LABEL, default='NONE')
