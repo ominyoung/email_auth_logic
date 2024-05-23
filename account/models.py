@@ -1,5 +1,9 @@
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.db import models
+from imagekit.models import ImageSpecField
+from imagekit.processors import Thumbnail
+from pilkit.processors import ResizeToFill
+
 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, password=None):
@@ -38,6 +42,15 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name='회사 이메일 혹은 이메일', max_length=50, unique=True)
     name = models.CharField(verbose_name='회사 이름 혹은 이름', max_length=30)
     is_active = models.BooleanField(verbose_name='로그인 가능', default=True)
+    profile = models.ImageField(verbose_name='프로필 사진', upload_to='profile/', blank=True, null=True)
+    profile_thumbnail = ImageSpecField(source='profile',
+                                        processors=[Thumbnail(100, 100)],
+                                        format='JPEG',
+                                        options={'quality': 60})
+    profile_website = ImageSpecField(source='profile',
+                                    format='JPEG',
+                                    options={'quality': 60})
+
     is_superuser = models.BooleanField(verbose_name='최고관리자', default=False)
     is_staff = models.BooleanField(verbose_name='관리자페이지 접근', default=False)
     position = models.CharField(verbose_name='직책', max_length=30, choices=MyUser_ROLL_LABEL, default='NONE')
